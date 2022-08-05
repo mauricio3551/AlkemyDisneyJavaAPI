@@ -1,7 +1,7 @@
-package com.Disney.Alkemy.converter;
+package com.Disney.Alkemy.model.converter;
 
-import com.Disney.Alkemy.dto.PersonajeDto;
-import com.Disney.Alkemy.entity.Personaje;
+import com.Disney.Alkemy.model.dto.PersonajeDto;
+import com.Disney.Alkemy.model.entity.Personaje;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +12,9 @@ public class PersonajeConverter {
                 personaje.getIdPersonaje(),
                 personaje.getNombre(),
                 personaje.getPeso(),
+                personaje.getEdad(),
                 personaje.getHistoria(),
+                personaje.getImagen(),
                 personaje.getPeliculaSerieSet()
         );
     }
@@ -22,7 +24,9 @@ public class PersonajeConverter {
                 personajeDto.getIdPersonaje(),
                 personajeDto.getNombre(),
                 personajeDto.getPeso(),
-                personajeDto.getHistoria()
+                personajeDto.getEdad(),
+                personajeDto.getHistoria(),
+                personajeDto.getImagen()
         );
     }
 }

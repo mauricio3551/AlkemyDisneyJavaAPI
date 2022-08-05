@@ -1,11 +1,11 @@
-package com.Disney.Alkemy.dto;
+package com.Disney.Alkemy.model.dto;
 
-import com.Disney.Alkemy.entity.PeliculaSerie;
+import com.Disney.Alkemy.model.entity.PeliculaSerie;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
@@ -15,38 +15,47 @@ public class PersonajeDto {
     private Long idPersonaje;
     private String nombre;
     private int peso;
+    private int edad;
     private String historia;
-    private Set<PeliculaSerieDto> peliculaSerieDtoSet = new HashSet<>();
+    private String imagen;
+    private List<PeliculaSerieDto> peliculaSerieDtoSet = new ArrayList<>();
 
     public PersonajeDto() {
     }
 
-    public PersonajeDto(Long idPersonaje, String nombre, int peso, String historia) {
+    public PersonajeDto(Long idPersonaje, String nombre, int peso, int edad, String historia, String imagen) {
         this.idPersonaje = idPersonaje;
         this.nombre = nombre;
         this.peso = peso;
+        this.edad = edad;
         this.historia = historia;
+        this.imagen = imagen;
     }
 
     public PersonajeDto(Long idPersonaje,
                         String nombre,
                         int peso,
+                        int edad,
                         String historia,
-                        Set<PeliculaSerie> peliculaSerieDtoSet) {
+                        String imagen,
+                        List<PeliculaSerie> peliculaSerieDtoSet) {
         this.idPersonaje = idPersonaje;
         this.nombre = nombre;
         this.peso = peso;
+        this.edad = edad;
         this.historia = historia;
+        this.imagen = imagen;
         this.peliculaSerieDtoSet = tomarPeliculas(peliculaSerieDtoSet);
     }
 
-    private Set<PeliculaSerieDto> tomarPeliculas(Set<PeliculaSerie> set){
+    private List<PeliculaSerieDto> tomarPeliculas(List<PeliculaSerie> set){
         return set.stream()
                 .map(peliculaSerie -> new PeliculaSerieDto(
                         peliculaSerie.getIdPeliculaSerie(),
                         peliculaSerie.getTitulo(),
                         peliculaSerie.getFechaCreacion(),
+                        peliculaSerie.getImagen(),
                         peliculaSerie.getCalificacion()
-                )).collect(Collectors.toSet());
+                )).collect(Collectors.toList());
     }
 }

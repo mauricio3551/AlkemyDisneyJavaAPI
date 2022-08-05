@@ -1,18 +1,19 @@
-package com.Disney.Alkemy.entity;
+package com.Disney.Alkemy.model.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Genero {
@@ -23,8 +24,8 @@ public class Genero {
   @NotBlank(message = "Ingrese nombre")
   private String nombre;
   @OneToMany(mappedBy = "genero")
-  @JsonBackReference(value = "generoPelicula")
-  private Set<PeliculaSerie> peliculaSerieSet = new HashSet<>();
+  @JsonBackReference
+  private List<PeliculaSerie> peliculaSerieSet = new ArrayList<>();
 
   public Genero(Long idGenero, String nombre) {
     this.idGenero = idGenero;

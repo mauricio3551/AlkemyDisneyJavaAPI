@@ -1,6 +1,6 @@
 package com.Disney.Alkemy.controller;
 
-import com.Disney.Alkemy.dto.PersonajeDto;
+import com.Disney.Alkemy.model.dto.PersonajeDto;
 import com.Disney.Alkemy.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +25,26 @@ public class PersonajeController {
         return new ResponseEntity<>(this.personajeService.getPersonaje(), HttpStatus.OK);
     }
 
+    @GetMapping(params = "edad")
+    public ResponseEntity<List<PersonajeDto>> getPersonajesByEdad
+            (@RequestParam("edad") int edad){
+        return new ResponseEntity<>(this.personajeService.getPersonajeByEdad(edad), HttpStatus.OK);
+    }
+
+    @GetMapping(params = "nombre")
+    public ResponseEntity<List<PersonajeDto>> getPersonajeByNombre
+            (@RequestParam("nombre") String nombre){
+        return new ResponseEntity<>(this.personajeService.getPersonajeByNombre(nombre), HttpStatus.OK);
+    }
+
+    @GetMapping(params = "peliculaSerie")
+    public ResponseEntity<List<PersonajeDto>> getPersonajeByPeliculaSerie
+            (@RequestParam("peliculaSerie") int idPeliculaSerie){
+        return new ResponseEntity<>(this.personajeService.getPersonajeByPeliculaSerie(idPeliculaSerie), HttpStatus.OK);
+    }
+
     @PostMapping("/crear")
-    public ResponseEntity<PersonajeDto> postPersonaje(PersonajeDto personajeDto){
+    public ResponseEntity<PersonajeDto> postPersonaje(@RequestBody PersonajeDto personajeDto){
         return new ResponseEntity<>(this.personajeService.postPersonaje(personajeDto), HttpStatus.CREATED);
     }
 

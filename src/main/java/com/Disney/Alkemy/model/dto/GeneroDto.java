@@ -1,10 +1,12 @@
-package com.Disney.Alkemy.dto;
+package com.Disney.Alkemy.model.dto;
 
-import com.Disney.Alkemy.entity.PeliculaSerie;
+import com.Disney.Alkemy.model.entity.PeliculaSerie;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,7 +16,7 @@ public class GeneroDto {
 
     private Long idGenero;
     private String nombre;
-    private Set<PeliculaSerieDto> peliculaSerieDtoSet = new HashSet<>();
+    private List<PeliculaSerieDto> peliculaSerieDtoSet = new ArrayList<>();
 
     public GeneroDto() {
     }
@@ -24,19 +26,20 @@ public class GeneroDto {
         this.nombre = nombre;
     }
 
-    public GeneroDto(Long idGenero, String nombre, Set<PeliculaSerie> peliculaSerieDtoSet) {
+    public GeneroDto(Long idGenero, String nombre, List<PeliculaSerie> peliculaSerieDtoSet) {
         this.idGenero = idGenero;
         this.nombre = nombre;
         this.peliculaSerieDtoSet = tomarPeliculas(peliculaSerieDtoSet);
     }
 
-    private Set<PeliculaSerieDto> tomarPeliculas(Set<PeliculaSerie> set){
+    private List<PeliculaSerieDto> tomarPeliculas(List<PeliculaSerie> set){
         return set.stream()
                 .map(peliculaSerie -> new PeliculaSerieDto(
                         peliculaSerie.getIdPeliculaSerie(),
                         peliculaSerie.getTitulo(),
                         peliculaSerie.getFechaCreacion(),
+                        peliculaSerie.getImagen(),
                         peliculaSerie.getCalificacion()
-                )).collect(Collectors.toSet());
+                )).collect(Collectors.toList());
     }
 }

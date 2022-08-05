@@ -1,7 +1,7 @@
-package com.Disney.Alkemy.converter;
+package com.Disney.Alkemy.model.converter;
 
-import com.Disney.Alkemy.dto.GeneroDto;
-import com.Disney.Alkemy.entity.Genero;
+import com.Disney.Alkemy.model.dto.GeneroDto;
+import com.Disney.Alkemy.model.entity.Genero;
 import org.springframework.stereotype.Component;
 
 @Component

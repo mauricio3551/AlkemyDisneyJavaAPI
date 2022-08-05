@@ -1,8 +1,8 @@
 package com.Disney.Alkemy.service;
 
-import com.Disney.Alkemy.converter.GeneroConverter;
-import com.Disney.Alkemy.dto.GeneroDto;
-import com.Disney.Alkemy.entity.Genero;
+import com.Disney.Alkemy.model.converter.GeneroConverter;
+import com.Disney.Alkemy.model.dto.GeneroDto;
+import com.Disney.Alkemy.model.entity.Genero;
 import com.Disney.Alkemy.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
