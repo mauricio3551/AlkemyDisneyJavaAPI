@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/genero")
+@RequestMapping("api/v1/genre")
 public class GeneroController {
 
     private final GeneroService generoService;
@@ -26,7 +26,7 @@ public class GeneroController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<GeneroDto> postGenero(GeneroDto generoDto){
+    public ResponseEntity<GeneroDto> postGenero(@RequestBody GeneroDto generoDto){
         return new ResponseEntity<>(this.generoService.postGenero(generoDto), HttpStatus.CREATED);
     }
 

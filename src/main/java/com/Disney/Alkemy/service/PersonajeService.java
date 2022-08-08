@@ -2,6 +2,7 @@ package com.Disney.Alkemy.service;
 
 import com.Disney.Alkemy.model.converter.PersonajeConverter;
 import com.Disney.Alkemy.model.dto.PersonajeDto;
+import com.Disney.Alkemy.model.entity.PeliculaSerie;
 import com.Disney.Alkemy.model.entity.Personaje;
 import com.Disney.Alkemy.repository.PersonajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ public class PersonajeService {
     private final PersonajeRepository personajeRepository;
     private final PersonajeConverter personajeConverter;
 
+
     @Autowired
-    public PersonajeService(PersonajeRepository personajeRepository, PersonajeConverter personajeConverter){
+    public PersonajeService(PersonajeRepository personajeRepository,
+                            PersonajeConverter personajeConverter) {
         this.personajeRepository = personajeRepository;
         this.personajeConverter = personajeConverter;
+
     }
 
     public List<PersonajeDto> getPersonaje(){

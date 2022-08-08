@@ -2,7 +2,7 @@ package com.Disney.Alkemy.model.dto;
 
 import com.Disney.Alkemy.model.entity.Genero;
 import com.Disney.Alkemy.model.entity.Personaje;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +19,10 @@ public class PeliculaSerieDto {
     private String imagen;
     private int calificacion;
     private GeneroDto genero;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Long> idPersonajeList = new ArrayList<>();
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long idGenero;
     private List<PersonajeDto> personajeList = new ArrayList<>();
 
     public PeliculaSerieDto() {
@@ -43,12 +45,14 @@ public class PeliculaSerieDto {
                             Date fechaCreacion,
                             String imagen,
                             int calificacion,
+                            Long idGenero,
                             List<Long> idPersonajeList) {
         this.idPeliculaSerie = idPeliculaSerie;
         this.titulo = titulo;
         this.fechaCreacion = fechaCreacion;
         this.imagen = imagen;
         this.calificacion = calificacion;
+        this.idGenero = idGenero;
         this.idPersonajeList = idPersonajeList;
     }
 
