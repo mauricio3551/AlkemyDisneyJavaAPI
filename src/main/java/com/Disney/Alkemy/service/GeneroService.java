@@ -30,6 +30,13 @@ public class GeneroService {
                 .collect(Collectors.toList());
     }
 
+    public GeneroDto getGeneroById(Long id){
+        return this.generoRepository
+                .findById(id)
+                .map(this.generoConverter::toDto)
+                .orElse(null);
+    }
+
     public GeneroDto postGenero(GeneroDto generoDto){
         Genero nuevoGenero =
                 this.generoRepository.save(this.generoConverter.toEntity(generoDto));

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,14 +22,14 @@ import lombok.ToString;
 public class PeliculaSerie {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long idPeliculaSerie;
   @Column(nullable = false, length = 50)
   private String titulo;
   @Column(nullable = false)
   @JsonFormat(shape =JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date fechaCreacion;
-  @Column(nullable = true, length = 500)
+  @Column(length = 500)
   private String imagen;
   @Column(nullable = false)
   private int calificacion;
@@ -56,12 +55,14 @@ public class PeliculaSerie {
                        Date fechaCreacion,
                        String imagen,
                        int calificacion,
+                       Genero genero,
                        List<Personaje> personajeList) {
     this.idPeliculaSerie = idPeliculaSerie;
     this.titulo = titulo;
     this.fechaCreacion = fechaCreacion;
     this.imagen = imagen;
     this.calificacion = calificacion;
+    this.genero = genero;
     this.personajeList = personajeList;
   }
 

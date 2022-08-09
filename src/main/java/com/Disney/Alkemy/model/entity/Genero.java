@@ -23,6 +23,7 @@ public class Genero {
   private Long idGenero;
   @NotBlank(message = "Ingrese nombre")
   private String nombre;
+
   @OneToMany(mappedBy = "genero")
   @JsonBackReference
   private List<PeliculaSerie> peliculaSerieSet = new ArrayList<>();

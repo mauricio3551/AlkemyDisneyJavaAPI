@@ -26,6 +26,21 @@ public class PeliculaSerieController {
         return new ResponseEntity<>(this.peliculaSerieService.getPeliculaSerie(), HttpStatus.OK);
     }
 
+    @GetMapping(params = "name")
+    public ResponseEntity<List<PeliculaSerieDto>> getPeliculaSerieByTitulo(@RequestParam("name") String titulo){
+        return new ResponseEntity<>(this.peliculaSerieService.getPeliculaSerieByTitulo(titulo), HttpStatus.OK);
+    }
+
+    @GetMapping(params = "genre")
+    public ResponseEntity<List<PeliculaSerieDto>> getPeliculaSerieByGenero(@RequestParam("genre") int idGenero){
+        return new ResponseEntity<>(this.peliculaSerieService.getPeliculaSerieByIdGenero(idGenero), HttpStatus.OK);
+    }
+
+    @GetMapping(params = "order")
+    public ResponseEntity<List<PeliculaSerieDto>> getPeliculaSerieByFechaCreacion(@RequestParam("order") String order){
+        return new ResponseEntity<>(this.peliculaSerieService.getPeliculaSerieByFechaCreacion(order), HttpStatus.OK);
+    }
+
     @PostMapping("/crear")
     public ResponseEntity<PeliculaSerieDto> postPeliculaSerie(@RequestBody PeliculaSerieDto peliculaSerieDto){
         return new ResponseEntity<>(this.peliculaSerieService.postPeliculaSerie(peliculaSerieDto), HttpStatus.CREATED);
@@ -37,10 +52,24 @@ public class PeliculaSerieController {
         return new ResponseEntity<>(this.peliculaSerieService.putPeliculaSerie(id, peliculaSerieDto), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/modificar", params = "id")
+    @PutMapping("/{idPelicula}/agregar/personaje")
+    public ResponseEntity<PeliculaSerieDto> putPersonajePeliculaSerie
+            (@PathVariable("idPelicula") Long idPelicula, @RequestParam Long idPersonaje){
+        return new ResponseEntity<>
+                (this.peliculaSerieService.putPersonajePeliculaSerie(idPelicula, idPersonaje), HttpStatus.OK);
+    }
+
+    @PutMapping("/{idPelicula}/imagen")
     public ResponseEntity<PeliculaSerieDto> putAgregarImagen
-            (@RequestParam("id")  Long id, @RequestBody MultipartFile imagen){
-        return new ResponseEntity<>(this.peliculaSerieService.putAgregarImagen(imagen, id), HttpStatus.OK);
+            (@PathVariable("idPelicula")  Long idPelicula, @RequestBody MultipartFile imagen){
+        return new ResponseEntity<>(this.peliculaSerieService.putAgregarImagen(imagen, idPelicula), HttpStatus.OK);
+    }
+
+    @PutMapping("/{idPelicula}/agregar/genero")
+    public ResponseEntity<PeliculaSerieDto> putAgregarGenero
+            (@PathVariable("idPelicula") Long idPelicula, @RequestParam Long idGenero){
+        return new ResponseEntity<>
+                (this.peliculaSerieService.putGeneroPeliculaSerie(idPelicula, idGenero), HttpStatus.OK);
     }
 
     @DeleteMapping("/eliminar")

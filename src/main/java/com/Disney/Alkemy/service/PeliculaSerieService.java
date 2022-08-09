@@ -1,8 +1,10 @@
 package com.Disney.Alkemy.service;
 
+import com.Disney.Alkemy.model.converter.GeneroConverter;
 import com.Disney.Alkemy.model.converter.PeliculaSerieConverter;
 import com.Disney.Alkemy.model.converter.PersonajeConverter;
 import com.Disney.Alkemy.model.dto.PeliculaSerieDto;
+import com.Disney.Alkemy.model.entity.Genero;
 import com.Disney.Alkemy.model.entity.PeliculaSerie;
 import com.Disney.Alkemy.model.entity.Personaje;
 import com.Disney.Alkemy.repository.PeliculaSerieRepository;
@@ -24,17 +26,25 @@ public class PeliculaSerieService {
     private final PeliculaSerieConverter peliculaSerieConverter;
     private final PersonajeService personajeService;
     private final PersonajeConverter personajeConverter;
+    private final GeneroService generoService;
+    private final GeneroConverter generoConverter;
+
 
     @Autowired
     public PeliculaSerieService(
             PeliculaSerieRepository peliculaSerieRepository,
             PeliculaSerieConverter peliculaSerieConverter,
             PersonajeService personajeService,
-            PersonajeConverter personajeConverter) {
+            PersonajeConverter personajeConverter,
+            GeneroService generoService,
+            GeneroConverter generoConverter) {
         this.peliculaSerieConverter = peliculaSerieConverter;
         this.peliculaSerieRepository = peliculaSerieRepository;
         this.personajeService = personajeService;
         this.personajeConverter = personajeConverter;
+        this.generoService = generoService;
+        this.generoConverter = generoConverter;
+
     }
 
     public List<PeliculaSerieDto> getPeliculaSerie(){
@@ -45,8 +55,43 @@ public class PeliculaSerieService {
                 .collect(Collectors.toList());
     }
 
+    public List<PeliculaSerieDto> getPeliculaSerieByTitulo(String titulo){
+        return this.peliculaSerieRepository
+                .findByTitulo(titulo)
+                .stream()
+                .map(this.peliculaSerieConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PeliculaSerieDto> getPeliculaSerieByIdGenero(int idGenero){
+        return this.peliculaSerieRepository
+                .findByGenero(idGenero)
+                .stream()
+                .map(this.peliculaSerieConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PeliculaSerieDto> getPeliculaSerieByFechaCreacion(String order){
+        if(order.toUpperCase() == "DESC"){
+            return this.peliculaSerieRepository
+                    .findAllByFechaCreacionDesc()
+                    .stream()
+                    .map(this.peliculaSerieConverter::toDto)
+                    .collect(Collectors.toList());
+        } else {
+            return this.peliculaSerieRepository
+                    .findAllByFechaCreacionAsc()
+                    .stream()
+                    .map(this.peliculaSerieConverter::toDto)
+                    .collect(Collectors.toList());
+        }
+    }
+
     public PeliculaSerieDto postPeliculaSerie(PeliculaSerieDto peliculaSerieDto){
-        if(!peliculaSerieDto.getIdPersonajeList().isEmpty()){
+        if(!peliculaSerieDto.getIdPersonajeList().isEmpty() && peliculaSerieDto.getIdGenero() != null){
+            Genero genero =
+                    this.generoConverter.toEntity(this.generoService.getGeneroById(peliculaSerieDto.getIdGenero()));
+
             List<Personaje> personajeList = peliculaSerieDto
                     .getIdPersonajeList()
                     .stream()
@@ -62,14 +107,23 @@ public class PeliculaSerieService {
                     peliculaSerieDto.getFechaCreacion(),
                     peliculaSerieDto.getImagen(),
                     peliculaSerieDto.getCalificacion(),
+                    genero,
                     personajeList
             );
+
+            personajeList.stream().map(personaje -> {
+                personaje.getPeliculaSerieSet().add(nuevaPeliculaSerie);
+                this.personajeService.postPersonaje(this.personajeConverter.toDto(personaje));
+                return personaje;
+            });
+
+            genero.getPeliculaSerieSet().add(nuevaPeliculaSerie);
+
+            this.generoService.postGenero(this.generoConverter.toDto(genero));
             this.peliculaSerieRepository.save(nuevaPeliculaSerie);
             return this.peliculaSerieConverter.toDto(nuevaPeliculaSerie);
         }else{
-            PeliculaSerie nuevaPeliculaSerie =
-                    this.peliculaSerieRepository.save(this.peliculaSerieConverter.toEntity(peliculaSerieDto));
-            return this.peliculaSerieConverter.toDto(nuevaPeliculaSerie);
+            return null;
         }
     }
 
@@ -85,6 +139,32 @@ public class PeliculaSerieService {
                 })
                 .orElseGet(() -> this.peliculaSerieRepository.save(nuevosDatosPeliculaSerie));
         return this.peliculaSerieConverter.toDto(modificacionPeliculaSerie);
+    }
+
+    public PeliculaSerieDto putPersonajePeliculaSerie(Long idPeliculaSerie, Long idPersonaje){
+        Personaje personaje = this.personajeConverter.toEntity(this.personajeService.getPersonajeById(idPersonaje));
+        PeliculaSerie peliculaSerie = this.peliculaSerieRepository.findById(idPeliculaSerie).orElseGet(null);
+        if (personaje != null && peliculaSerie != null){
+            peliculaSerie.getPersonajeList().add(personaje);
+            personaje.getPeliculaSerieSet().add(peliculaSerie);
+            this.peliculaSerieRepository.save(peliculaSerie);
+            this.personajeService.postPersonaje(this.personajeConverter.toDto(personaje));
+            return this.peliculaSerieConverter.toDto(peliculaSerie);
+        }
+        return null;
+    }
+
+    public PeliculaSerieDto putGeneroPeliculaSerie(Long idPeliculaSerie, Long idGenero){
+        Genero genero = this.generoConverter.toEntity(this.generoService.getGeneroById(idGenero));
+        PeliculaSerie peliculaSerie = this.peliculaSerieRepository.findById(idPeliculaSerie).orElseGet(null);
+        if (genero != null && peliculaSerie != null){
+            peliculaSerie.setGenero(genero);
+            genero.getPeliculaSerieSet().add(peliculaSerie);
+            this.peliculaSerieRepository.save(peliculaSerie);
+            this.generoService.postGenero(this.generoConverter.toDto(genero));
+            return this.peliculaSerieConverter.toDto(peliculaSerie);
+        }
+        return null;
     }
 
     public PeliculaSerieDto putAgregarImagen(MultipartFile imagen, Long idPeliculaSerie){
