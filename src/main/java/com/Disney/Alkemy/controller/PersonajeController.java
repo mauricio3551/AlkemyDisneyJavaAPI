@@ -25,21 +25,21 @@ public class PersonajeController {
         return new ResponseEntity<>(this.personajeService.getPersonaje(), HttpStatus.OK);
     }
 
-    @GetMapping(params = "edad")
+    @GetMapping(params = "age")
     public ResponseEntity<List<PersonajeDto>> getPersonajesByEdad
-            (@RequestParam("edad") int edad){
+            (@RequestParam("age") int edad){
         return new ResponseEntity<>(this.personajeService.getPersonajeByEdad(edad), HttpStatus.OK);
     }
 
-    @GetMapping(params = "nombre")
+    @GetMapping(params = "name")
     public ResponseEntity<List<PersonajeDto>> getPersonajeByNombre
-            (@RequestParam("nombre") String nombre){
+            (@RequestParam("name") String nombre){
         return new ResponseEntity<>(this.personajeService.getPersonajeByNombre(nombre), HttpStatus.OK);
     }
 
-    @GetMapping(params = "peliculaSerie")
+    @GetMapping(params = "movies")
     public ResponseEntity<List<PersonajeDto>> getPersonajeByPeliculaSerie
-            (@RequestParam("peliculaSerie") int idPeliculaSerie){
+            (@RequestParam("movies") int idPeliculaSerie){
         return new ResponseEntity<>(this.personajeService.getPersonajeByPeliculaSerie(idPeliculaSerie), HttpStatus.OK);
     }
 

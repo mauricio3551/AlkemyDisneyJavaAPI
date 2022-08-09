@@ -16,7 +16,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class PeliculaSerie {
