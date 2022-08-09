@@ -72,7 +72,7 @@ public class PeliculaSerieService {
     }
 
     public List<PeliculaSerieDto> getPeliculaSerieByFechaCreacion(String order){
-        if(order.toUpperCase() == "DESC"){
+        if(order.toUpperCase().equals("DESC")){
             return this.peliculaSerieRepository
                     .findAllByFechaCreacionDesc()
                     .stream()
@@ -188,5 +188,15 @@ public class PeliculaSerieService {
 
     public void deletePeliculaSerie(Long idPeliculaSerie){
         this.peliculaSerieRepository.deleteById(idPeliculaSerie);
+    }
+
+    public PeliculaSerieDto deletePersonajePeliculaSerie(Long idPeliculaSerie, Long idPersonaje){
+        PeliculaSerie peliculaSerie = this.peliculaSerieRepository.findById(idPeliculaSerie).orElseGet(null);
+        Personaje personaje = this.personajeConverter.toEntity(this.personajeService.getPersonajeById(idPersonaje));
+        if (peliculaSerie != null && personaje != null) {
+            peliculaSerie.getPersonajeList().removeIf(p -> p.getIdPersonaje() == personaje.getIdPersonaje());
+            this.peliculaSerieRepository.save(peliculaSerie);
+        }
+        return this.peliculaSerieConverter.toDto(peliculaSerie);
     }
 }

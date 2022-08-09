@@ -52,9 +52,9 @@ public class PeliculaSerieController {
         return new ResponseEntity<>(this.peliculaSerieService.putPeliculaSerie(id, peliculaSerieDto), HttpStatus.OK);
     }
 
-    @PutMapping("/{idPelicula}/agregar/personaje")
+    @PutMapping("/{idPelicula}/characters/{idPersonaje}")
     public ResponseEntity<PeliculaSerieDto> putPersonajePeliculaSerie
-            (@PathVariable("idPelicula") Long idPelicula, @RequestParam Long idPersonaje){
+            (@PathVariable("idPelicula") Long idPelicula, @PathVariable("idPersonaje") Long idPersonaje){
         return new ResponseEntity<>
                 (this.peliculaSerieService.putPersonajePeliculaSerie(idPelicula, idPersonaje), HttpStatus.OK);
     }
@@ -65,9 +65,9 @@ public class PeliculaSerieController {
         return new ResponseEntity<>(this.peliculaSerieService.putAgregarImagen(imagen, idPelicula), HttpStatus.OK);
     }
 
-    @PutMapping("/{idPelicula}/agregar/genero")
+    @PutMapping("/{idPelicula}/genre/{idGenero}")
     public ResponseEntity<PeliculaSerieDto> putAgregarGenero
-            (@PathVariable("idPelicula") Long idPelicula, @RequestParam Long idGenero){
+            (@PathVariable("idPelicula") Long idPelicula, @PathVariable("idGenero") Long idGenero){
         return new ResponseEntity<>
                 (this.peliculaSerieService.putGeneroPeliculaSerie(idPelicula, idGenero), HttpStatus.OK);
     }
@@ -76,5 +76,12 @@ public class PeliculaSerieController {
     public ResponseEntity deletePeliculaSerie(@RequestParam Long id){
         this.peliculaSerieService.deletePeliculaSerie(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idPelicula}/characters/{idPersonaje}")
+    public ResponseEntity<PeliculaSerieDto> deletePersonajePeliculaSerie
+            (@PathVariable("idPelicula") Long idPelicula, @PathVariable("idPersonaje") Long idPersonaje){
+        return new ResponseEntity<>
+                (this.peliculaSerieService.deletePersonajePeliculaSerie(idPelicula, idPersonaje), HttpStatus.OK);
     }
 }
