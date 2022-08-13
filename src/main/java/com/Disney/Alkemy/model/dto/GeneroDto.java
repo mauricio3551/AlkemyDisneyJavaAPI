@@ -19,11 +19,13 @@ public class GeneroDto {
     public GeneroDto() {
     }
 
+    //Es lo que tiene que ingresar el usuario
     public GeneroDto(Long idGenero, String nombre) {
         this.idGenero = idGenero;
         this.nombre = nombre;
     }
 
+    //Me devuelve la BD
     public GeneroDto(Long idGenero, String nombre, List<PeliculaSerie> peliculaSerieDtoSet) {
         this.idGenero = idGenero;
         this.nombre = nombre;

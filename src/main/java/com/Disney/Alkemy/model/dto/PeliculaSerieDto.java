@@ -18,11 +18,11 @@ public class PeliculaSerieDto {
     private Date fechaCreacion;
     private String imagen;
     private int calificacion;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long idGenero;
     private GeneroDto genero;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Long> idPersonajeList = new ArrayList<>();
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long idGenero;
     private List<PersonajeDto> personajeList = new ArrayList<>();
 
     public PeliculaSerieDto() {
